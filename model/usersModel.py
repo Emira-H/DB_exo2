@@ -7,7 +7,7 @@ class UsersModel:
     # The class requires an instance of Connection to execute SQL statements
 
 
-    def create_account(self,name , firstname, pseudo, mail, age, password ):
+    def create_account(self, name, firstname, pseudo, mail, age, password ):
         # first, we call the method to connect to the DB and use the cursor in this one
         # we execute the SQL request to add a row with the informations in the table message
         # In order to commit all changes to the PostgreSQL database permanently, we call the commit() method .
@@ -18,12 +18,10 @@ class UsersModel:
         self.db.close_connection()
 
 
-
-
-    def connect_existing_account(self):
-        ''' Methode to '''
+    def connect_existing_account(self, pseudo, password):
+        ''' Methode to connect to this account '''
         self.db.initialize_connection()
-        self.db.cursor.execute("SELECT * FROM message ;")
+        self.db.cursor.execute("SELECT * FROM users WHERE pseudo = %s AND password = %s  ;"), pseudo, password)
         messages = self.db.cursor.fetchall()
         self.db.close_connection()
         return messages
